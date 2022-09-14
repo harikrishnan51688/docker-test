@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  web:
+    build: 
+      context: .
+    working_dir: /main
+
+    expose:
+      - 8000
+
+    volumes:
+      - ./main:/main
+      - static_volume:/app/main/staticfiles
+ 
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/app/main/staticfiles
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    
+volumes:
+  static_volume:
