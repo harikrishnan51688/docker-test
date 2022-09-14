@@ -24,9 +24,10 @@ RUN python -m venv /opt/env && \
 #     chmod -R 755 /app/main/staticfiles && \
 #     chmod -R 755 /app/main/mediafiles
 
+COPY . .
+
 ENV PATH="/app/scripts:/opt/env/bin:$PATH"
 
-COPY . .
 USER app
 
 CMD [ "run.sh" ]
