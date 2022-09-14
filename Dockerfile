@@ -16,17 +16,17 @@ RUN python -m venv /opt/env && \
         build-base postgresql-dev musl-dev linux-headers && \
     /opt/env/bin/pip install -r requirements.txt && \
     apk del .tmp-deps && \
-    adduser --disabled-password --no-create-home app  && \
-    chmod -R +x /app/scripts/run.sh
+    adduser --disabled-password --no-create-home app
     # static and media files config
-#     mkdir -p /app/main/staticfiles && \
-#     mkdir -p /app/main/mediafiles && \
-#     chmod -R 755 /app/main/staticfiles && \
-#     chmod -R 755 /app/main/mediafiles
+# RUN chmod -R +x /app/scripts/
+    # mkdir -p /app/main/staticfiles && \
+    # mkdir -p /app/main/mediafiles && \
+    # chmod -R 755 /app/main/staticfiles && \
+    # chmod -R 755 /app/main/mediafiles %% \
 
 COPY . .
 
-ENV PATH="/scripts:/opt/env/bin:$PATH"
+ENV PATH="/app/scripts:/opt/env/bin:$PATH"
 
 USER app
 
