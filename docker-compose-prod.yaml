@@ -10,7 +10,6 @@ services:
       - 8000
 
     volumes:
-      - ./main:/main
       - static_volume:/app/main/staticfiles
  
   nginx:

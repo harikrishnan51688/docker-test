@@ -19,7 +19,7 @@ RUN python -m venv /opt/env && \
 
 COPY . .
     
-RUN chmod -R a+rwx /app/scripts && \
+RUN chmod -R +x /app/scripts && \
     mkdir -p /app/main/staticfiles && \
     chmod -R 755 /app/main/staticfiles 
 
