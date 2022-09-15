@@ -27,7 +27,7 @@ RUN python -m venv /opt/env && \
 COPY . .
 
 ENV PATH="/app/scripts:/opt/env/bin:$PATH"
+WORKDIR /scripts 
 
 USER app
-
 CMD [ "run.sh" ]
