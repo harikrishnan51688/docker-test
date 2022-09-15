@@ -7,7 +7,8 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 COPY ./requirements.txt .
-COPY ./scripts /app/scripts
+COPY . .
+# COPY ./scripts /app/scripts
 
 RUN python -m venv /opt/env && \
     /opt/env/bin/pip install --upgrade pip && \
@@ -18,16 +19,14 @@ RUN python -m venv /opt/env && \
     apk del .tmp-deps && \
     adduser --disabled-password --no-create-home app
     # static and media files config
-# RUN chmod -R +x /app/scripts/
+RUN chmod -R +x /app/scripts
     # mkdir -p /app/main/staticfiles && \
     # mkdir -p /app/main/mediafiles && \
     # chmod -R 755 /app/main/staticfiles && \
     # chmod -R 755 /app/main/mediafiles %% \
 
-COPY . .
-
 ENV PATH="/app/scripts:/opt/env/bin:$PATH"
-WORKDIR /scripts 
 
 USER app
+
 CMD [ "run.sh" ]
