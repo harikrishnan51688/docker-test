@@ -6,16 +6,6 @@ services:
       context: .
     working_dir: /main
 
-    environment:
-    - DEBUG=1
-    - SECRET_KEY=secret_key
-    - ALLOWED_HOSTS=127.0.0.1 this_is_a_test localhost
-    - DB_HOST=db
-    - DB_NAME=devdb
-    - DB_USER=devuser
-    - DB_PASSWORD=needtochange
-    - DB_PORT=5432
-    
     expose:
       - 8000
 
