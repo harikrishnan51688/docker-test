@@ -9,14 +9,14 @@ services:
       - 8000
 
     volumes:
-      - static_volume:/app/main/vol/staticfiles
+      - static_volume:/app/main/staticfiles
 
 
   nginx:
     build: ./nginx
     restart: always
     volumes:
-      - static_volume:/app/main/vol/staticfiles
+      - static_volume:/app/main/staticfiles
     ports:
       - 80:80
     depends_on:
