@@ -8,19 +8,19 @@ services:
     expose:
       - 8000
 
-    # volumes:
-    #   - static_volume:/app/main/vol/staticfiles
+    volumes:
+      - static_volume:/app/main/vol/staticfiles
 
 
   nginx:
     build: ./nginx
     restart: always
-    # volumes:
-    #   - static_volume:/app/main/vol/staticfiles
+    volumes:
+      - static_volume:/app/main/vol/staticfiles
     ports:
       - 80:80
     depends_on:
       - web
     
-# volumes:
-#   static_volume:
+volumes:
+  static_volume:
