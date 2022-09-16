@@ -21,11 +21,8 @@ COPY . .
 WORKDIR /app/main
 
 RUN mkdir -p /staticfiles && \
-    mkdir -p /static && \
-    chown -R app:app /static && \
     chown -R app:app /staticfiles && \ 
     chmod -R 755 /staticfiles && \
-    chmod -R 755 /static  && \
     chmod -R +x /app/scripts
 
 ENV PATH="/app/scripts:/opt/env/bin:$PATH"
