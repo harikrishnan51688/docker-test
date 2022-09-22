@@ -10,13 +10,14 @@ services:
 
     volumes:
       - static_volume:/app/main/staticfiles
-
+      - media_volume:/app/main/mediafiles
 
   nginx:
     build: ./nginx
     restart: always
     volumes:
       - static_volume:/app/main/staticfiles
+      - media_volume:/app/main/mediafiles
     ports:
       - 80:80
     depends_on:
@@ -24,3 +25,4 @@ services:
     
 volumes:
   static_volume:
+  media_volume:

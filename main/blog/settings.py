@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
-import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,14 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')  #'django-insecure-0s3h*f*l5#98a#er6=9@8^q)2!rjc-$g*-8g9ek99)pzff#rz1'
+SECRET_KEY = os.environ.get('SECRET_KEY')  
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG', default=0))
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
+# CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
 
 # Application definition
 
@@ -38,10 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-
     'django.contrib.staticfiles',
-    'cloudinary_storage',
-    'cloudinary',
 
     'post',
 ]
@@ -133,26 +129,44 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-STATIC_ROOT = BASE_DIR / 'staticfiles/'
+### Dev config ###
 
-STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+# STATIC_URL = 'static/'
+# STATIC_ROOT = BASE_DIR / 'staticfiles/'
+# STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'mediafiles/'
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT = BASE_DIR / 'mediafiles/'
 
-###################################  
-## CLOUDINARY STORAGE CONFIGURATION ## 
-# Use cloudinary for all media storage
-###################################
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API'),
-    'API_SECRET': os.environ.get('CLOUDINARY_SECRET'),
-}
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+#########
+# LINODE CONFIG
+#########
+
+LINODE_BUCKET=os.environ.get('LINODE_BUCKET')
+LINODE_BUCKET_REGION=os.environ.get('LINODE_BUCKET_REGION')
+LINODE_BUCKET_ACCESS_KEY=os.environ.get('LINODE_BUCKET_ACCESS_KEY')
+LINODE_BUCKET_SECRET_KEY=os.environ.get('LINODE_BUCKET_SECRET_KEY')
+
+AWS_S3_ENDPOINT_URL=f'https://{LINODE_BUCKET_REGION}.linodeobjects.com'
+AWS_ACCESS_KEY_ID=LINODE_BUCKET_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY=LINODE_BUCKET_SECRET_KEY
+AWS_S3_REGION_NAME=LINODE_BUCKET_REGION
+AWS_S3_USE_SSL=True
+AWS_STORAGE_BUCKET_NAME=LINODE_BUCKET
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_DEFAULT_ACL=None
+# s3 static 
+AWS_LOCATION = 'static'
+STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
+STATICFILES_STORAGE = 'blog.storage_backends.StaticStorage'
+# s3 media
+PUBLIC_MEDIA_LOCATION = 'media'
+MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
+DEFAULT_FILE_STORAGE = 'blog.storage_backends.PublicMediaStorage'
 
 
 # Default primary key field type
